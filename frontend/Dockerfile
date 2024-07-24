@@ -1,4 +1,4 @@
-# Bắt đầu từ image Node.js với Alpine Linux
+# Bắt đầu từ image Node.js
 FROM node:18
 
 # Tạo và chuyển đến thư mục làm việc /app

@@ -6,9 +6,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "5000:3000"
     env_file:
-      - ./frontend/.env
+      - ./frontend/frontend.env
     depends_on:
       - flaskapp
 
@@ -19,11 +19,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - '4000:4000'
+    # ports:
+    #   - '4000:4000'
     restart: always
     env_file:
-      - ./backend/.env
+      - ./backend/backend.env
     depends_on:
       - db
 

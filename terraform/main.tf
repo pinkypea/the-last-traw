@@ -34,11 +34,11 @@ resource "aws_iam_role_policy_attachment" "the-last-straw-AmazonEKSClusterPolicy
   role       = aws_iam_role.the-last-straw-eks.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
+
 resource "aws_iam_role_policy_attachment" "the-last-straw-AmazonEKSServicePolicy" {
   role       = aws_iam_role.the-last-straw-eks.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
 }
-
 
 # Create EKS Cluster
 resource "aws_eks_cluster" "the-last-straw-cluster" {
@@ -82,7 +82,7 @@ resource "aws_eks_node_group" "the-last-straw-node-group" {
     min_size = var.min_capacity
   }
 
-  instance_types = ["t3.medium"]
+    instance_types = ["t3.medium"]
   depends_on = [
     aws_iam_role_policy_attachment.the-last-straw-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.the-last-straw-AmazonEKS_CNI_Policy,
@@ -114,17 +114,16 @@ resource "aws_db_instance" "postgres" {
   allocated_storage    = 20
   max_allocated_storage = 100
   engine               = "postgres"
-  engine_version       = "13.3"
+  engine_version       = "13.15"
   instance_class       = "db.t3.micro"
   db_name              = var.db_name
   username             = var.db_username
   password             = var.db_password
   parameter_group_name = "default.postgres13"
-  publicly_accessible  = false
+  publicly_accessible  = true
   vpc_security_group_ids = var.security_group_ids
-  db_subnet_group_name = aws_db_subnet_group.default.name
-
-  skip_final_snapshot = true
+ # db_subnet_group_name = aws_db_subnet_group.default.name
+   skip_final_snapshot = true
 
   tags = {
     Name = "postgres-rds"

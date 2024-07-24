@@ -143,3 +143,10 @@ kubectl create namespace backend
 aws eks update-kubeconfig --region ap-southeast-1 --name the-last-straw-cluster
 ```
 psql "postgresql://postgres:postgres@terraform-20240720032754650300000001.cb6ge2e4gfe1.ap-southeast-1.rds.amazonaws.com:5432/postgres"
+
+
+sudo dpkg -i ./containerd.io_1.7.19-1_amd64.deb \
+  ./docker-ce-cli_27.1.1-1~ubuntu.22.04~jammy_amd64.deb \
+  ./docker-ce_27.1.1-1~ubuntu.22.04~jammy_amd64.deb \
+  ./docker-buildx-plugin_0.16.1-1~ubuntu.22.04~jammy_amd64.deb \
+  ./docker-compose-plugin_2.29.1-1~ubuntu.22.04~jammy_amd64.deb
