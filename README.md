@@ -1,28 +1,5 @@
 # 1. Client installation
-## a. install gcloud
-```bash
-sudo apt-get update
-
-sudo apt-get install apt-transport-https ca-certificates gnupg curl -y
-
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
-
-echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-sudo apt-get update && sudo apt-get install google-cloud-cli
-
-sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin
-
-gcloud init
-
-gcloud auth login
-
-# list compute engine
-
-gcloud compute instances list
-```
-
-## b. install kubectl
+## a. install kubectl
 ```bash
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
 
@@ -34,7 +11,7 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 
 kubectl version
 ```
-## c. install docker
+## b. install docker
 ```bash
 # Add Docker's official GPG key:
 sudo apt-get update
@@ -59,8 +36,8 @@ sudo docker ps
 ## a. Prepair
 - Pull docker images
 ```bash
-sudo docker pull hoangbuii2711/natours-frontend
-sudo docker pull hoangbuii2711/natours-backend
+sudo docker pull peapota/the-last-straw-frontend
+sudo docker pull peapota/the-last-straw-frontend-backend
 ```
 - Label the Nodes
 ```bash
@@ -84,16 +61,17 @@ kubectl apply -f backend-service.yaml
 ```bash
 kubectl create secret generic the-last-straw-frontend-env --from-env-file=frontend.env -n frontend
 kubectl create secret generic the-last-straw-backend-env --from-env-file=backend.env -n backend
+
 ```
 - Apply Deployment
 ```bash
-  kubectl apply -f frontend-deployment.yaml
-  kubectl apply -f backend-deployment.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f backend-deployment.yaml
 ```
 - Install metric Server
 ```bash
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-```
+```BB
 - Apply HPA
 ```bash
 kubectl apply -f hpa.yaml
@@ -130,7 +108,7 @@ npm -v
 - Follow gitlab runnner setup instruction
 - Run gitlab runner
 ```bash
-gitlab-runner run
+gitlab-runner run &
 ```
 # 4. Setup CI/CD
 - Create staging namespace
