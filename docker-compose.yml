@@ -3,7 +3,7 @@ services:
     container_name: nextapp
     image: nextapp:1.0.0
     build:
-      context: ./frontend
+      context: ./frontend/src
       dockerfile: Dockerfile
     ports:
       - "5000:3000"
