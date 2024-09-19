@@ -1,4 +1,4 @@
-name: Full CI/CD Pipeline with Docker Compose
+name: Build Pipeline with Docker Compose
 
 on:
   push:
@@ -44,31 +44,10 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y docker-compose
-     # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
 
-    # Log in to Docker Hub
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-    # Build Docker images for frontend and backend
-    - name: Build Docker images
-      run: docker-compose -f docker-compose.yml build
-
-    # Tag the Docker image
-    - name: Tag the Docker image
-      run: |
-       IMAGE_TAG=69e8f18b3b5f890304a3553eb470fd629677f2f7
-       docker tag nextapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:$IMAGE_TAG
-       docker tag flaskapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:$IMAGE_TAG
-
-    # Push the Docker images to Docker Hub
-    - name: Push Docker images
-      run: |
-       IMAGE_TAG=69e8f18b3b5f890304a3553eb470fd629677f2f7
-       docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:$IMAGE_TAG
-       docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:$IMAGE_TAG
+    # Build and run with Docker Compose
+    - name: Build services using Docker Compose
+      run: docker-compose build
 
   # Push Docker images to DockerHub
   push:
