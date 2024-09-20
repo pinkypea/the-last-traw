@@ -51,7 +51,7 @@ jobs:
     - name: Build frontend image
       run: |
         cd ./frontend
-        echo "$DOCKERHUB_PASSWORD" | sudo docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+        echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}"--password-stdin
         sudo docker build -t $DOCKER_IMAGE:${{ github.sha }} .
 
 
