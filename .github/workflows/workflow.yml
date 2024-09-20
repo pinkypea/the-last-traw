@@ -77,8 +77,8 @@ jobs:
     # Push frontend image
     - name: Tag and push frontend image
       run: |
-        docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_IMAGE:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_IMAGE:${{ github.sha }}
+        docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Push backend image
     - name: Tag and push backend image
