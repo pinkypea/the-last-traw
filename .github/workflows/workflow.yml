@@ -48,25 +48,28 @@ jobs:
     - name: Build services using Docker Compose
       run: docker-compose build
 
+    - name: List Docker images
+      run: docker images
+
   # Push Docker images to DockerHub
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+  # push:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
 
-    - name: Log in to DockerHub
-      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+  #   - name: Log in to DockerHub
+  #     run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    # Push frontend image
-    - name: Tag and push frontend image
-      run: |
-        docker tag nextapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+  #   # Push frontend image
+  #   - name: Tag and push frontend image
+  #     run: |
+  #       docker tag nextapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+  #       docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
-    # Push backend image
-    - name: Tag and push backend image
-      run: |
-        docker tag flaskapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+  #   # Push backend image
+  #   - name: Tag and push backend image
+  #     run: |
+  #       docker tag flaskapp:1.0.0 ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+  #       docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
