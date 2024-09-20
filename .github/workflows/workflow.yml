@@ -75,12 +75,11 @@ jobs:
       run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
     # Push frontend image
-    - name: Tag and push frontend image
+    - name: Build backend image
       run: |
-        docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-
-    # Push backend image
+        cd ./backend
+        docker build -t flaskapp .
+  
     - name: Tag and push backend image
       run: |
         docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
