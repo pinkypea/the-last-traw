@@ -33,7 +33,7 @@ jobs:
         key: env-file-backend
 
   # Build Docker Compose Services
-  build:
+  build-push:
     runs-on: ubuntu-latest
     needs: get-env
     steps:
