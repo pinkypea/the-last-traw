@@ -2,8 +2,10 @@ name: Full CI/CD Pipeline with Docker Compose
 
 on:
   push:
-    branches:
-      - main
+    branches: main
+  pull_request:
+    branches: main
+
 
 jobs:
   # Prepare: Get Environment Variables for both frontend and backend
