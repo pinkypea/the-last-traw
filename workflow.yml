@@ -49,14 +49,6 @@ jobs:
     - name: Build services using Docker Compose
       run: docker-compose build
 
-  # Push Docker images to DockerHub
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
     - name: Log in to DockerHub
       run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
