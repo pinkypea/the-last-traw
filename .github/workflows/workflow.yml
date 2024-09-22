@@ -60,7 +60,7 @@ jobs:
 
   push:
     runs-on: self-hosted
-    needs: push
+    needs: build
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
