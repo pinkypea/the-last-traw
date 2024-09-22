@@ -33,15 +33,6 @@ jobs:
         path: backend/backend.env
         key: env-file-backend
 
-  clean:
-    runs-on: self-hosted
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Clean up Docker images
-      run: sudo docker system prune -af
-
   # Build Docker Compose Services
   build-and-push:
     runs-on: self-hosted
