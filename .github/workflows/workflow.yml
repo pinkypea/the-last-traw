@@ -53,8 +53,8 @@ jobs:
     # Build and tag frontend service using Docker Compose
     - name: Build and tag frontend service
       run: |
-        docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
+        sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
