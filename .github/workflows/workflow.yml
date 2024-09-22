@@ -61,6 +61,7 @@ jobs:
         sudo docker build -t nextapp .
         # sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
         sudo docker push nextapp
+        sudo docker rmi nextapp
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
@@ -69,3 +70,4 @@ jobs:
         sudo docker build -t flaskapp .
         # sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker push flaskapp
+        sudo docker rmi flaskapp
