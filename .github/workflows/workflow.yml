@@ -76,3 +76,4 @@ jobs:
     # Push backend image
     - name: Push backend image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+      
