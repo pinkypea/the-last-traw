@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: main
 
-
 jobs:
   # Prepare: Get Environment Variables for both frontend and backend
   get-env:
@@ -54,12 +53,18 @@ jobs:
     - name: Log in to DockerHub
       run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
+    # Tag frontend image
+    - name: Tag frontend image
+      run: docker tag nextapp:latest ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+
     # Push frontend image
     - name: Push frontend image
-      run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+
+    # Tag backend image
+    - name: Tag backend image
+      run: docker tag flaskapp:latest ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
 
     # Push backend image
     - name: Push backend image
-      run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
