@@ -43,7 +43,7 @@ jobs:
       run: docker system prune -af
 
   # Build Docker Compose Services
-  build and push:
+  build-and-push:
     runs-on: self-hosted
     needs: get-env
     steps:
