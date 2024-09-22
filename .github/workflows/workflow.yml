@@ -33,8 +33,17 @@ jobs:
         path: backend/backend.env
         key: env-file-backend
 
+  clean:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Clean up Docker images
+      run: docker system prune -af
+
   # Build Docker Compose Services
-  build:
+  build and push:
     runs-on: self-hosted
     needs: get-env
     steps:
@@ -55,33 +64,37 @@ jobs:
       run: |
         cd ./frontend
         sudo docker build -t nextapp .
+        sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
       run: |
         cd ./backend
         sudo docker build -t flaskapp .
-
-  push:
-    runs-on: self-hosted
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    # Log in to DockerHub
-    - name: Log in to DockerHub
-      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-    # Push frontend image
-    - name: Push frontend image
-      run: |
-        sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-
-    # Push backend image
-    - name: Push backend image
-      run: |
         sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+
+  # push:
+  #   runs-on: self-hosted
+  #   needs: build
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+
+  #   # Log in to DockerHub
+  #   - name: Log in to DockerHub
+  #     run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+  #   # Push frontend image
+  #   - name: Push frontend image
+  #     run: |
+  #       sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+  #       sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+
+  #   # Push backend image
+  #   - name: Push backend image
+  #     run: |
+  #       sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+  #       sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
       
