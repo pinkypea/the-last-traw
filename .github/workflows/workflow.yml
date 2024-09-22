@@ -53,11 +53,14 @@ jobs:
     # Build and tag frontend service using Docker Compose
     - name: Build and tag frontend service
       run: |
+        cd ./frontend
         sudo docker build -t nextapp .
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
-      run: sudo docker build -t flaskapp .
+      run: |
+        cd ./backend
+        sudo docker build -t flaskapp .
 
   push:
     runs-on: self-hosted
