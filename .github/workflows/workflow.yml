@@ -53,12 +53,11 @@ jobs:
     # Build and tag frontend service using Docker Compose
     - name: Build and tag frontend service
       run: |
-        sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
+        sudo docker build -t nextapp .
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
-      run: docker-compose build backend && docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+      run: sudo docker build -t flaskapp .
 
   push:
     runs-on: self-hosted
@@ -73,9 +72,13 @@ jobs:
 
     # Push frontend image
     - name: Push frontend image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+      run: |
+        sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Push backend image
     - name: Push backend image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+      run: |
+        sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
       
