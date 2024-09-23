@@ -51,7 +51,7 @@ jobs:
         cd ./frontend
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
         # sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        sudo docker push 
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Build and tag backend service using Docker Compose
