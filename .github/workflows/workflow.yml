@@ -50,7 +50,6 @@ jobs:
       run: |
         cd ./frontend
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
-        # sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
@@ -59,6 +58,5 @@ jobs:
       run: |
         cd ./backend
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }} .
-        # sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
