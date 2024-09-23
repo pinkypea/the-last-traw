@@ -45,7 +45,7 @@ jobs:
     - name: Log in to DockerHub
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    # Build and tag frontend service using Docker Compose
+    # Build and push frontend service using Docker Compose
     - name: Build and tag frontend service
       run: |
         cd ./frontend
@@ -54,11 +54,11 @@ jobs:
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
-    # Build and tag backend service using Docker Compose
+    # Build and push backend service using Docker Compose
     - name: Build and tag backend service
       run: |
         cd ./backend
-        sudo docker build -t flaskapp .
+        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }} .
         # sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
-        sudo docker push flaskapp
-        sudo docker rmi flaskapp
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
