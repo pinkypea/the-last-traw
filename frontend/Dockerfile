@@ -1,5 +1,5 @@
 # Bắt đầu từ image Node.js
-FROM node:18
+FROM node:18-alpine
 
 # Tạo và chuyển đến thư mục làm việc /app
 WORKDIR /app
