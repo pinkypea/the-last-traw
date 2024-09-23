@@ -46,7 +46,7 @@ jobs:
       run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
     # Build and push frontend service using Docker Compose
-    - name: Build and tag frontend service
+    - name: Build and push frontend service
       run: |
         cd ./frontend
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
@@ -54,7 +54,7 @@ jobs:
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Build and push backend service using Docker Compose
-    - name: Build and tag backend service
+    - name: Build and push backend service
       run: |
         cd ./backend
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }} .
