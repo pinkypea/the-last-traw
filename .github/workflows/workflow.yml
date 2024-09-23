@@ -43,7 +43,7 @@ jobs:
     
     # Log in to DockerHub
     - name: Log in to DockerHub
-      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
     # Build and tag frontend service using Docker Compose
     - name: Build and tag frontend service
@@ -62,4 +62,3 @@ jobs:
         # sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker push flaskapp
         sudo docker rmi flaskapp
-        
