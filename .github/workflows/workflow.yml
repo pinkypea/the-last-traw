@@ -33,7 +33,7 @@ jobs:
         path: backend/backend.env
         key: env-file-backend
 
-  # Build Docker Compose Services
+  # Build and push images
   build-and-push:
     runs-on: self-hosted
     needs: get-env
