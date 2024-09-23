@@ -49,10 +49,10 @@ jobs:
     - name: Build and tag frontend service
       run: |
         cd ./frontend
-        sudo docker build -t nextapp .
+        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
         # sudo docker tag nextapp ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        sudo docker push nextapp
-        sudo docker rmi nextapp
+        sudo docker push 
+        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
 
     # Build and tag backend service using Docker Compose
     - name: Build and tag backend service
