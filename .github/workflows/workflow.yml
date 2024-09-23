@@ -62,3 +62,4 @@ jobs:
         # sudo docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
         sudo docker push flaskapp
         sudo docker rmi flaskapp
+        
