@@ -48,6 +48,7 @@ jobs:
     - name: Build and push frontend service
       run: |
         cd ./frontend
+        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} .
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
@@ -56,6 +57,7 @@ jobs:
     - name: Build and push backend service
       run: |
         cd ./backend
+        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }} .
         sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
