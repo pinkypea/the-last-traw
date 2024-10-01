@@ -50,7 +50,8 @@ jobs:
         cd ./frontend
         echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} .
-        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
+        sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:latest
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend
         sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
 
     # Build and push backend service using Docker Compose
