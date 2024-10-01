@@ -48,14 +48,14 @@ jobs:
     - name: Build and push frontend service
       run: |
         cd ./frontend
-        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
-        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
-        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }}
+        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} .
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
+        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
 
     # Build and push backend service using Docker Compose
     - name: Build and push backend service
       run: |
         cd ./backend
-        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }} .
-        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
-        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+        sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }} .
+        sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
+        sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
