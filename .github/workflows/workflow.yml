@@ -51,10 +51,10 @@ jobs:
     - name: Build and push frontend service
       run: |
         cd ./frontend
-        docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} --push .
+        sudo docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }} --push .
 
     # Build and push backend service using Docker Compose
     - name: Build and push backend service
       run: |
         cd ./backend
-        docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }} --push .
+        sudo docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }} --push .
