@@ -40,15 +40,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
     # Fix permissions for Docker socket
     - name: Fix Docker socket permissions
       run: |
         sudo chown root:docker /var/run/docker.sock
         sudo chmod 666 /var/run/docker.sock
+
+    # Set up Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
     
     # Log in to DockerHub
     - name: Log in to DockerHub
