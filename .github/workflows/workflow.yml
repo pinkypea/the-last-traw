@@ -40,14 +40,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    
     # Fix permissions for Docker socket
     - name: Fix Docker socket permissions
       run: |
         sudo chown root:docker /var/run/docker.sock
         sudo chmod 666 /var/run/docker.sock
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
 
     # Set up Docker Buildx
     - name: Set up Docker Buildx
