@@ -127,26 +127,19 @@ jobs:
 
     # Kaniko build for frontend
     - name: Build and push frontend image with Kaniko
-      uses: aevea/action-kaniko@master
+      uses: mr-smithers-excellent/kaniko-action@v2
       with:
-        image: aevea/kaniko
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        cache: true
-        cache_registry: aevea/cache
         dockerfile: ./frontend/Dockerfile
         context: ./frontend
+        args: --cache=true
         destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
+
 
     # Kaniko build for backend
     - name: Build and push backend image with Kaniko
-      uses: aevea/action-kaniko@master
+      uses: mr-smithers-excellent/kaniko-action@v2
       with:
-        image: aevea/kaniko
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        cache: true
-        cache_registry: aevea/cache
         dockerfile: ./backend/Dockerfile
         context: ./backend
+        args: --cache=true
         destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
