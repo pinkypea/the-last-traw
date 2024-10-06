@@ -127,12 +127,12 @@ jobs:
 
     # Kaniko build for frontend
     - name: Build and push frontend image with Kaniko
-      uses: mr-smithers-excellent/kaniko-action@v2
+      uses: aevea/action-kaniko@master
       with:
         dockerfile: ./frontend/Dockerfile
         context: ./frontend
         args: --cache=true
-        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:${{ github.sha }}
+        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend
 
 
     # Kaniko build for backend
@@ -142,4 +142,4 @@ jobs:
         dockerfile: ./backend/Dockerfile
         context: ./backend
         args: --cache=true
-        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:${{ github.sha }}
+        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend
