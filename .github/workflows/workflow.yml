@@ -137,7 +137,7 @@ jobs:
 
     # Kaniko build for backend
     - name: Build and push backend image with Kaniko
-      uses: mr-smithers-excellent/kaniko-action@v2
+      uses: aevea/action-kaniko@master
       with:
         dockerfile: ./backend/Dockerfile
         context: ./backend
