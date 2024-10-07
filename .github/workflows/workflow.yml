@@ -125,21 +125,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Kaniko build for frontend
+    # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
-      uses: aevea/action-kaniko@master
+      uses: gcr.io/kaniko-project/executor:latest
       with:
-        dockerfile: ./frontend/Dockerfile
-        context: ./frontend
-        args: --cache=true
-        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend
+        args: >
+          --dockerfile=./frontend/Dockerfile
+          --context=./frontend
+          --destination=${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend
+          --cache=true
 
-
-    # Kaniko build for backend
+    # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
-      uses: aevea/action-kaniko@master
+      uses: gcr.io/kaniko-project/executor:latest
       with:
-        dockerfile: ./backend/Dockerfile
-        context: ./backend
-        args: --cache=true
-        destination: ${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend
+        args: >
+          --dockerfile=./backend/Dockerfile
+          --context=./backend
+          --destination=${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend
+          --cache=true
