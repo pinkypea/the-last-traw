@@ -88,9 +88,13 @@
 name: Actions Runner Controller
 on:
   push:
-    branches: main
-  pull_request:
-    branches: main
+    branches: [ "*" ]
+    paths:
+    - "app/**"
+    - ".github/workflows/build-with-kaniko.yml"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 env:
   KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
