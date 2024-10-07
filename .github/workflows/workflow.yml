@@ -125,7 +125,7 @@ jobs:
         path: backend/backend.env
         key: env-file-backend
 
-  build-push:
+  build-to-docker-hub:
     runs-on: arc-runner-set
     needs: get-env
     container:
