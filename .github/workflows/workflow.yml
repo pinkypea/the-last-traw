@@ -125,8 +125,9 @@ jobs:
   build-push:
     runs-on: arc-runner-set
     needs: get-env
-    container:
-      image: gcr.io/kaniko-project/executor:v1.20.0-debug 
+    # container:
+    #   image: gcr.io/kaniko-project/executor:v1.20.0-debug 
+    uses: aevea/action-kaniko@master
     permissions:
       contents: read # read the repository
     steps:
