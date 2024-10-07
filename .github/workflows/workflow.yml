@@ -125,16 +125,16 @@ jobs:
         path: backend/backend.env
         key: env-file-backend
 
-  build-to-docker-hub:
+  build-push:
     runs-on: arc-runner-set
     needs: get-env
     container:
       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
     permissions:
       contents: read # read the repository
-    # steps:
-    # - name: Checkout code
-    #   uses: actions/checkout@v3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
