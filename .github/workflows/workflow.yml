@@ -127,7 +127,7 @@ jobs:
     needs: get-env
     # container:
     #   image: gcr.io/kaniko-project/executor:v1.20.0-debug 
-    uses: aevea/action-kaniko@master
+    # uses: aevea/action-kaniko@master
     # permissions:
     #   contents: read # read the repository
     steps:
@@ -136,7 +136,7 @@ jobs:
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
-      image: aevea/kaniko
+      uses: aevea/action-kaniko@master
       run: |
         # Create Docker config for authentication
         cat <<EOF > /kaniko/.docker/config.json
@@ -158,7 +158,7 @@ jobs:
           
     # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
-      image: aevea/kaniko
+      uses: aevea/action-kaniko@master
       run: |
         # Reuse the Docker authentication config
         /kaniko/executor --dockerfile="./backend/Dockerfile" \
