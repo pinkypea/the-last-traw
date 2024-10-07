@@ -92,6 +92,9 @@ on:
   pull_request:
     branches: main
 
+env:
+  KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
+
 jobs:
   get-env:
     runs-on: arc-runner-set
@@ -125,9 +128,9 @@ jobs:
       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
     permissions:
       contents: read # read the repository
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    # steps:
+    # - name: Checkout code
+    #   uses: actions/checkout@v3
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
@@ -145,9 +148,9 @@ jobs:
           
         # Run Kaniko to build and push the frontend image
         /kaniko/executor --dockerfile="./frontend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
-          --cache=true \
+          ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
           
     # Build and push backend image with Kaniko
@@ -157,5 +160,5 @@ jobs:
         /kaniko/executor --dockerfile="./backend/Dockerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
-          --cache=true \
+          ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
