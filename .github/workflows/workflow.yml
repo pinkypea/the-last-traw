@@ -121,26 +121,41 @@ jobs:
   build-push:
     runs-on: arc-runner-set
     needs: get-env
+    container:
+      image: gcr.io/kaniko-project/executor:v1.20.0-debug 
+    permissions:
+      contents: read # read the repository
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
-      image: gcr.io/kaniko-project/executor:latest
-      with:
-        args: >
-          --dockerfile=./frontend/Dockerfile
-          --context=./frontend
-          --destination=${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend
-          --cache=true
-
+      run: |
+        # Create Docker config for authentication
+        cat <<EOF > /kaniko/.docker/config.json
+        {
+          "auths": {
+            "https://index.docker.io/v1/": {
+              "auth": "$(echo -n "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" | base64 )"
+            }
+          }
+        }
+        EOF
+          
+        # Run Kaniko to build and push the frontend image
+        /kaniko/executor --dockerfile="./frontend/Dockerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
+          --cache=true \
+          --push-retry 5
+          
     # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
-      image: gcr.io/kaniko-project/executor:latest
-      with:
-        args: >
-          --dockerfile=./backend/Dockerfile
-          --context=./backend
-          --destination=${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend
-          --cache=true
+      run: |
+        # Reuse the Docker authentication config
+        /kaniko/executor --dockerfile="./backend/Dockerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
+          --cache=true \
+          --push-retry 5
