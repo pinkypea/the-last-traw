@@ -88,10 +88,7 @@
 name: Actions Runner Controller
 on:
   push:
-    branches: [ "*" ]
-    paths:
-    - "app/**"
-    - ".github/workflows/build-with-kaniko.yml"
+    branches: main
 
 env:
   KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
