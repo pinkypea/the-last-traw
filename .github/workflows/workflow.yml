@@ -125,7 +125,7 @@ jobs:
     container:
       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
     permissions:
-      contents: read # read the repository
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
