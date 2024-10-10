@@ -34,7 +34,7 @@ jobs:
 
   build-push:
     runs-on: arc-runner-set
-    # needs: get-env
+    needs: get-env
     container:
       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
     permissions:
