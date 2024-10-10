@@ -4,14 +4,11 @@ FROM node:18-alpine
 # Tạo và chuyển đến thư mục làm việc /app
 WORKDIR /app
 
-# Sao chép các file cấu hình package
-COPY package.json package-lock.json ./
+# Sao chép toàn bộ mã nguồn vào image
+COPY . .
 
 # Cài đặt các gói phụ thuộc
 RUN npm install
-
-# Sao chép toàn bộ mã nguồn vào image
-COPY . .
 
 # Xây dựng dự án Next.js
 RUN npm run build
