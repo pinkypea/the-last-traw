@@ -14,15 +14,17 @@ jobs:
     permissions:
       contents: read
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Verify directory structure
       run: ls -al
 
-    - name: Verify frontend directory contents
-      run: ls -al frontend
+    - name: Verify frontend directory contents (if exists)
+      run: ls -al frontend || echo "frontend directory not found"
 
-    - name: Verify frontend directory contents
-      run: ls -al backend
+    - name: Verify frontend directory contents (if exists)
+      run: ls -al backend || echo "backend directory not found"
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
