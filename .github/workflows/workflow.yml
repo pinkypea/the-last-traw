@@ -1,75 +1,86 @@
-name: Actions Runner Controller
-on:
-  push:
-    branches: main
+# name: Actions Runner Controller
+# on:
+#   push:
+#     branches: main
 
-env:
-  KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
+# env:
+#   KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
+
+# jobs:
+#   # get-env:
+#   #   runs-on: arc-runner-set
+#   #   steps:
+#   #   - name: Checkout code
+#   #     uses: actions/checkout@v3
+
+#   #   - name: Get frontend environment variables
+#   #     run: echo "${{ secrets.FRONT_ENV_FILE }}" > frontend/frontend.env
+
+#   #   - name: Get backend environment variables
+#   #     run: echo "${{ secrets.BACKEND_ENV_FILE }}" > backend/backend.env
+
+#   #   # Cache environment files
+#   #   - name: Cache frontend environment file
+#   #     uses: actions/cache@v3
+#   #     with:
+#   #       path: frontend/frontend.env
+#   #       key: env-file-frontend
+
+#   #   - name: Cache backend environment file
+#   #     uses: actions/cache@v3
+#   #     with:
+#   #       path: backend/backend.env
+#   #       key: env-file-backend
+
+#   build-push:
+#     runs-on: arc-runner-set
+#     # needs: get-env
+#     container:
+#       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
+#     permissions:
+#       contents: read
+#     steps:
+#     # - name: Checkout code
+#     #   uses: actions/checkout@v3
+
+#     # Build and push frontend image with Kaniko
+#     - name: Build and push frontend image with Kaniko
+#       run: |
+#         # Create Docker config for authentication
+#         cat <<EOF > /kaniko/.docker/config.json
+#         {
+#           "auths": {
+#             "https://index.docker.io/v1/": {
+#               "auth": "$(echo -n "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_PASSWORD }}" | base64 )"
+#             }
+#           }
+#         }
+#         EOF
+          
+#         # Run Kaniko to build and push the frontend image
+#         /kaniko/executor --dockerfile="./frontend/Dockerfile" \
+#           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
+#           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
+#           ${{ env.KANIKO_CACHE_ARGS }} \
+#           --push-retry 5
+          
+#     # Build and push backend image with Kaniko
+#     - name: Build and push backend image with Kaniko
+#       run: |
+#         # Reuse the Docker authentication config
+#         /kaniko/executor --dockerfile="./backend/Dockerfile" \
+#           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+#           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
+#           ${{ env.KANIKO_CACHE_ARGS }} \
+#           --push-retry 5
+
+name: Actions Runner Controller Demo
+on:
+  workflow_dispatch:
 
 jobs:
-  # get-env:
-  #   runs-on: arc-runner-set
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v3
-
-  #   - name: Get frontend environment variables
-  #     run: echo "${{ secrets.FRONT_ENV_FILE }}" > frontend/frontend.env
-
-  #   - name: Get backend environment variables
-  #     run: echo "${{ secrets.BACKEND_ENV_FILE }}" > backend/backend.env
-
-  #   # Cache environment files
-  #   - name: Cache frontend environment file
-  #     uses: actions/cache@v3
-  #     with:
-  #       path: frontend/frontend.env
-  #       key: env-file-frontend
-
-  #   - name: Cache backend environment file
-  #     uses: actions/cache@v3
-  #     with:
-  #       path: backend/backend.env
-  #       key: env-file-backend
-
-  build-push:
+  Explore-GitHub-Actions:
+    # You need to use the INSTALLATION_NAME from the previous step
     runs-on: arc-runner-set
-    # needs: get-env
-    container:
-      image: gcr.io/kaniko-project/executor:v1.20.0-debug 
-    permissions:
-      contents: read
     steps:
-    # - name: Checkout code
-    #   uses: actions/checkout@v3
-
-    # Build and push frontend image with Kaniko
-    - name: Build and push frontend image with Kaniko
-      run: |
-        # Create Docker config for authentication
-        cat <<EOF > /kaniko/.docker/config.json
-        {
-          "auths": {
-            "https://index.docker.io/v1/": {
-              "auth": "$(echo -n "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_PASSWORD }}" | base64 )"
-            }
-          }
-        }
-        EOF
-          
-        # Run Kaniko to build and push the frontend image
-        /kaniko/executor --dockerfile="./frontend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
-          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
-          ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5
-          
-    # Build and push backend image with Kaniko
-    - name: Build and push backend image with Kaniko
-      run: |
-        # Reuse the Docker authentication config
-        /kaniko/executor --dockerfile="./backend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
-          ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5
+    - run: echo "🎉 This job uses runner scale set runners!"
