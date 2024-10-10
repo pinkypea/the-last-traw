@@ -40,6 +40,8 @@ jobs:
     permissions:
       contents: read
     steps:
+    # - name: Checkout code
+    #   uses: actions/checkout@v3
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
