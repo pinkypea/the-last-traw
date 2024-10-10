@@ -31,7 +31,7 @@ jobs:
           
         # Run Kaniko to build and push the frontend image
         /kaniko/executor --dockerfile="./frontend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
+          --context="."  \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
@@ -41,7 +41,7 @@ jobs:
       run: |
         # Reuse the Docker authentication config
         /kaniko/executor --dockerfile="./backend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --context="." \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
