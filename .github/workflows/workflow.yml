@@ -7,41 +7,41 @@ env:
   KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
 
 jobs:
-  get-env:
-    runs-on: arc-runner-set
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+  # get-env:
+  #   runs-on: arc-runner-set
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
 
-    - name: Get frontend environment variables
-      run: echo "${{ secrets.FRONT_ENV_FILE }}" > frontend/frontend.env
+  #   - name: Get frontend environment variables
+  #     run: echo "${{ secrets.FRONT_ENV_FILE }}" > frontend/frontend.env
 
-    - name: Get backend environment variables
-      run: echo "${{ secrets.BACKEND_ENV_FILE }}" > backend/backend.env
+  #   - name: Get backend environment variables
+  #     run: echo "${{ secrets.BACKEND_ENV_FILE }}" > backend/backend.env
 
-    # Cache environment files
-    - name: Cache frontend environment file
-      uses: actions/cache@v3
-      with:
-        path: frontend/frontend.env
-        key: env-file-frontend
+  #   # Cache environment files
+  #   - name: Cache frontend environment file
+  #     uses: actions/cache@v3
+  #     with:
+  #       path: frontend/frontend.env
+  #       key: env-file-frontend
 
-    - name: Cache backend environment file
-      uses: actions/cache@v3
-      with:
-        path: backend/backend.env
-        key: env-file-backend
+  #   - name: Cache backend environment file
+  #     uses: actions/cache@v3
+  #     with:
+  #       path: backend/backend.env
+  #       key: env-file-backend
 
   build-push:
     runs-on: arc-runner-set
-    needs: get-env
+    # needs: get-env
     container:
       image: gcr.io/kaniko-project/executor:v1.20.0-debug 
     permissions:
       contents: read
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    # - name: Checkout code
+    #   uses: actions/checkout@v3
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
