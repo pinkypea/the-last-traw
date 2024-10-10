@@ -4,7 +4,7 @@ on:
     branches: main
 
 env:
-  KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
+  KANIKO_CACHE_ARGS: "--no-push --cache=true --cache-copy-layers=true --cache-ttl=24h"
 
 jobs:
   # get-env:
