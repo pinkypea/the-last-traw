@@ -73,4 +73,3 @@ jobs:
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
-          
