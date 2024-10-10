@@ -15,6 +15,15 @@ jobs:
       contents: read
     steps:
 
+    - name: Verify directory structure
+      run: ls -al
+
+    - name: Verify frontend directory contents
+      run: ls -al frontend
+
+    - name: Verify frontend directory contents
+      run: ls -al backend
+
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
       run: |
@@ -28,8 +37,6 @@ jobs:
           }
         }
         EOF
-          
-        cd ./frontend
 
         # Run Kaniko to build and push the frontend image
         /kaniko/executor --dockerfile="./Dockerfile" \
@@ -37,11 +44,10 @@ jobs:
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5
-          
+
     # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
       run: |
-        cd ./backend
         # Reuse the Docker authentication config
         /kaniko/executor --dockerfile="./Dockerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
