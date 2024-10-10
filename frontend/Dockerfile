@@ -4,11 +4,14 @@ FROM node:18-alpine
 # Tạo và chuyển đến thư mục làm việc /app
 WORKDIR /app
 
-# Sao chép toàn bộ mã nguồn vào image
-COPY . .
+# Copy package.json and package-lock.json first to leverage Docker's caching
+COPY package*.json ./
 
-# Cài đặt các gói phụ thuộc
+# Install dependencies
 RUN npm install
+
+# Copy the rest of the application code
+COPY . .
 
 # Xây dựng dự án Next.js
 RUN npm run build
