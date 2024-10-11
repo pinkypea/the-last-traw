@@ -14,17 +14,6 @@ jobs:
     permissions:
       contents: read
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Verify directory structure
-      run: ls -al
-
-    - name: Verify frontend directory contents (if exists)
-      run: ls -al frontend || echo "frontend directory not found"
-
-    - name: Verify frontend directory contents (if exists)
-      run: ls -al backend || echo "backend directory not found"
 
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
@@ -40,19 +29,20 @@ jobs:
         }
         EOF
 
-        # Run Kaniko to build and push the frontend image
-        /kaniko/executor --dockerfile="./Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
-          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
-          ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5
-
-    # Build and push backend image with Kaniko
-    - name: Build and push backend image with Kaniko
-      run: |
         # Reuse the Docker authentication config
         /kaniko/executor --dockerfile="./Dockerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
+          ${{ env.KANIKO_CACHE_ARGS }} \
+          --push-retry 5
+
+
+    # Build and push backend image with Kaniko
+    - name: Build and push backend image with Kaniko
+      run: |
+          # Run Kaniko to build and push the frontend image
+        /kaniko/executor --dockerfile="./Dockerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
+          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5

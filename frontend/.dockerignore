@@ -2,4 +2,5 @@ npm-debug.log
 README.md
 .next
 .git
+.gitignore
 frontend.env
