@@ -30,7 +30,7 @@ jobs:
         EOF
 
         # Run Kaniko to build and push the frontend image
-        /kaniko/executor --dockerfile="./frontend/Dockerfile" \
+        /kaniko/executor --dockerfile="Dockerfile" \
           --context="${{ github.workspace }}/frontend"  \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
@@ -41,7 +41,7 @@ jobs:
     - name: Build and push backend image with Kaniko
       run: |
         # Reuse the Docker authentication config
-        /kaniko/executor --dockerfile="./backend/Dockerfile" \
+        /kaniko/executor --dockerfile="Dockerfile" \
           --context="${{ github.workspace }}/backend" \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
