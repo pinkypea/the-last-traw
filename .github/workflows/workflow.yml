@@ -40,7 +40,7 @@ jobs:
     # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
       run: |
-          # Run Kaniko to build and push the frontend image
+        # Run Kaniko to build and push the frontend image
         /kaniko/executor --dockerfile="./Dockerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
