@@ -2,6 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+RUN ls -la /app
 COPY package.json /app/
 
 COPY package-lock.json /app/
