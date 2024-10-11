@@ -1,20 +1,20 @@
-# Bắt đầu từ image Node.js
 FROM node:18-alpine
 
-# Tạo và chuyển đến thư mục làm việc /app
 WORKDIR /app
 
-# Sao chép toàn bộ mã nguồn vào image
-COPY . .
+COPY package.json /app/
 
-# Cài đặt các gói phụ thuộc
+COPY package-lock.json /app/
+
+# Debugging step: List files in /app to ensure package*.json is present
+RUN ls -la /app
+
 RUN npm install
 
-# Xây dựng dự án Next.js
+COPY . /app/
+
 RUN npm run build
 
-# Cung cấp cổng mà ứng dụng sẽ chạy
 EXPOSE 3000
 
-# Khởi chạy ứng dụng
 CMD ["npm", "start"]

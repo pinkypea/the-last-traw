@@ -1,86 +1,49 @@
-name: Build Pipeline with Docker Compose
-
+name: Actions Runner Controller
 on:
   push:
-    branches:
-      - main
+    branches: main
+
+env:
+  KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
 
 jobs:
-  # Prepare: Get Environment Variables for both frontend and backend
-  get-env:
-    runs-on: ubuntu-latest
+  build-push:
+    runs-on: arc-runner-set
+    container:
+      image: gcr.io/kaniko-project/executor:v1.22.0-debug 
+    permissions:
+      contents: read
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
 
-    - name: Get frontend environment variables
-      run: echo "${{ secrets.FRONT_ENV_FILE }}" > frontend/frontend.env
-
-    - name: Get backend environment variables
-      run: echo "${{ secrets.BACKEND_ENV_FILE }}" > backend/backend.env
-
-    # Cache environment files
-    - name: Cache frontend environment file
-      uses: actions/cache@v3
-      with:
-        path: frontend/frontend.env
-        key: env-file-frontend
-
-    - name: Cache backend environment file
-      uses: actions/cache@v3
-      with:
-        path: backend/backend.env
-        key: env-file-backend
-
-  # Build Docker Compose Services
-  build:
-    runs-on: ubuntu-latest
-    needs: get-env
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Install Docker Compose
+    # Build and push frontend image with Kaniko
+    - name: Build and push frontend image with Kaniko
       run: |
-        sudo apt-get update
-        sudo apt-get install -y docker-compose
-    # # Build and run with Docker Compose
-    # - name: Build services using Docker Compose
-    #   run: docker-compose build
+        # Create Docker config for authentication
+        cat <<EOF > /kaniko/.docker/config.json
+        {
+          "auths": {
+            "https://index.docker.io/v1/": {
+              "auth": "$(echo -n "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" | base64 )"
+            }
+          }
+        }
+        EOF
 
-    - name: Build frontend image
+        # Run Kaniko to build and push the frontend image
+        /kaniko/executor --dockerfile="./frontend/Dockerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
+          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
+          ${{ env.KANIKO_CACHE_ARGS }} \
+          --push-retry 5
+          --cleanup
+
+    # Build and push backend image with Kaniko
+    - name: Build and push backend image with Kaniko
       run: |
-        cd ./frontend
-        echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nextapp:${{ github.sha }} .
-
-    - name: Build frontend image
-      run: |
-        cd ./backend
-        echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }} .
-
-    - name: List Docker images
-      run: docker images
-
-  # Push Docker images to DockerHub
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Log in to DockerHub
-      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-    # Push frontend image
-    - name: Build backend image
-      run: |
-        cd ./backend
-        docker build -t flaskapp .
-  
-    - name: Tag and push backend image
-      run: |
-        docker tag flaskapp ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/flaskapp:${{ github.sha }}
+        # Reuse the Docker authentication config
+        /kaniko/executor --dockerfile="./backend/Dockerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
+          ${{ env.KANIKO_CACHE_ARGS }} \
+          --push-retry 5
+          --cleanup
