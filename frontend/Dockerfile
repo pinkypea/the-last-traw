@@ -2,7 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY ./package*.json /app/
+COPY package.json /app/
+
+COPY package-lock.json /app/
 
 # Debugging step: List files in /app to ensure package*.json is present
 RUN ls -la /app
