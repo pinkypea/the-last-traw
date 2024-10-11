@@ -34,7 +34,7 @@ jobs:
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5
+          --push-retry 5 \
           --cleanup
 
     # Build and push backend image with Kaniko
@@ -45,5 +45,5 @@ jobs:
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-backend:$(echo ${{ github.sha }} | head -c 7)" \
           ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5
-          # --cleanup
+          --push-retry 5 \
+          --cleanup

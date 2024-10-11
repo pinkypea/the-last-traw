@@ -2,11 +2,11 @@ FROM python:3.6-slim-buster
 
 WORKDIR /app
 
-COPY requirements.txt ./
+COPY ./backend/requirements.txt /app/
 
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY ./backend/ /app/
 
 EXPOSE 4000
 
