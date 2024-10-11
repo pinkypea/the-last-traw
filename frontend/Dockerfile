@@ -2,11 +2,14 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY ./package*.json /app/
+
+# Debugging step: List files in /app to ensure package*.json is present
+RUN ls -la /app
 
 RUN npm install
 
-COPY . .
+COPY . /app/
 
 RUN npm run build
 
