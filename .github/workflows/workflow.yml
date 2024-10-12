@@ -39,9 +39,10 @@ jobs:
 
     - name: Clean
       run: |
+        ls $GITHUB_ACTION_PATH
         cd $GITHUB_ACTION_PATH
         cd ..
-        du -hs $(ls)
+        ls 
 
   # build-push-backend:
   #   runs-on: arc-runner-set
