@@ -15,6 +15,9 @@ jobs:
       contents: read
     steps:
 
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
     # Build and push frontend image with Kaniko
     - name: Build and push frontend image with Kaniko
       run: |
@@ -44,6 +47,9 @@ jobs:
     permissions:
       contents: read
     steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     # Build and push backend image with Kaniko
     - name: Build and push backend image with Kaniko
