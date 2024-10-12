@@ -39,10 +39,12 @@ jobs:
 
     - name: Clean
       run: |
+        echo "GITHUB_ACTION_PATH is set to: $GITHUB_ACTION_PATH"
         ls $GITHUB_ACTION_PATH
-        # cd $GITHUB_ACTION_PATH
-        # cd ..
-        # ls 
+        cd $GITHUB_ACTION_PATH || exit 1
+        cd ..
+        ls
+
 
   # build-push-backend:
   #   runs-on: arc-runner-set
