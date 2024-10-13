@@ -44,7 +44,7 @@ jobs:
         ls /__w/the-last-traw/the-last-traw
         ls /__w/
         cd /__w/the-last-traw/the-last-traw
-        sudo docker images
+        docker images
         # ls $GITHUB_ACTION_PATH
         # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
