@@ -41,9 +41,9 @@ jobs:
       run: |
         ls
         pwd
+        ls $GITHUB_ACTION_PATH
+        ls $GITHUB_PATH
         ls /__w/
-        cd /__w/the-last-traw
-        docker images
         # ls $GITHUB_ACTION_PATH
         # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
