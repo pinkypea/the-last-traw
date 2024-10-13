@@ -29,18 +29,19 @@ jobs:
         }
         EOF
 
-        # Run Kaniko to build and push the frontend image
-        /kaniko/executor --dockerfile="./frontend/Dockerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
-          --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
-          ${{ env.KANIKO_CACHE_ARGS }} \
-          --push-retry 5 \
-          --cleanup
+        # # Run Kaniko to build and push the frontend image
+        # /kaniko/executor --dockerfile="./frontend/Dockerfile" \
+        #   --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}"  \
+        #   --destination="${{ secrets.DOCKERHUB_USERNAME }}/the-last-straw-frontend:$(echo ${{ github.sha }} | head -c 7)" \
+        #   ${{ env.KANIKO_CACHE_ARGS }} \
+        #   --push-retry 5 \
+        #   --cleanup
 
     - name: Clean
       run: |
         pwd
-        ls $GITHUB_ACTION_PATH
+        cd /__w/the-last-traw
+        # ls $GITHUB_ACTION_PATH
         # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
         # ls
