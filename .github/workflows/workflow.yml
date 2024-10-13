@@ -39,11 +39,11 @@ jobs:
 
     - name: Clean
       run: |
-        echo "GITHUB_ACTION_PATH is set to: $GITHUB_ACTION_PATH"
+        pwd
         ls $GITHUB_ACTION_PATH
         cd $GITHUB_ACTION_PATH || exit 1
-        cd ..
-        ls
+        # cd ..
+        # ls
 
 
   # build-push-backend:
