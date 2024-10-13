@@ -39,9 +39,10 @@ jobs:
 
     - name: Clean
       run: |
+        ls
         pwd
-        cd /__w/the-last-traw/the-last-traw
         ls /__w/the-last-traw/the-last-traw
+        ls /__w/
         # ls $GITHUB_ACTION_PATH
         # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
