@@ -41,7 +41,7 @@ jobs:
       run: |
         pwd
         ls $GITHUB_ACTION_PATH
-        cd $GITHUB_ACTION_PATH || exit 1
+        # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
         # ls
 
