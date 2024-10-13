@@ -41,6 +41,7 @@ jobs:
       run: |
         pwd
         cd /__w/the-last-traw
+        ls /__w/the-last-traw
         # ls $GITHUB_ACTION_PATH
         # cd $GITHUB_ACTION_PATH || exit 1
         # cd ..
