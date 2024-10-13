@@ -46,6 +46,7 @@ jobs:
 
   build-push-backend:
     runs-on: arc-runner-set
+    needs: build-push-frontend
     container:
       image: gcr.io/kaniko-project/executor:v1.22.0-debug 
     permissions:
@@ -73,3 +74,9 @@ jobs:
           ${{ env.KANIKO_CACHE_ARGS }} \
           --push-retry 5 \
           --cleanup
+
+    - name: Clean
+      run: |
+        pwd
+        rm -rf $GITHUB_ACTION_PATH
+        ls $GITHUB_PATH
