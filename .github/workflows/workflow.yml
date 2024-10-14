@@ -105,6 +105,7 @@ jobs:
 
     - name: Config kubectl
       run: |
+        mkdir -p ~/.kube
         echo "${{ secrets.K8S_CONFIG }}" > ~/.kube/config
         export KUBECONFIG=/etc/kubernetes/admin.conf
         export PATH="kubectl:$PATH"
