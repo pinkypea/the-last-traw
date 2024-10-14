@@ -82,7 +82,6 @@ jobs:
     #     ls $GITHUB_PATH
 
   deploy-to-staging:
-
     runs-on: arc-runner-set
     needs: [build-push-frontend, build-push-backend]
     steps:
