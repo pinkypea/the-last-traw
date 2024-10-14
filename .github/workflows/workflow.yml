@@ -37,11 +37,11 @@ jobs:
           --push-retry 5 \
           --cleanup
 
-    - name: Clean
-      run: |
-        pwd
-        rm -rf $GITHUB_ACTION_PATH
-        ls $GITHUB_PATH
+    # - name: Clean
+    #   run: |
+    #     pwd
+    #     rm -rf $GITHUB_ACTION_PATH
+    #     ls $GITHUB_PATH
 
 
   build-push-backend:
@@ -75,11 +75,11 @@ jobs:
           --push-retry 5 \
           --cleanup
 
-    - name: Clean
-      run: |
-        pwd
-        rm -rf $GITHUB_ACTION_PATH
-        ls $GITHUB_PATH
+    # - name: Clean
+    #   run: |
+    #     pwd
+    #     rm -rf $GITHUB_ACTION_PATH
+    #     ls $GITHUB_PATH
 
   deploy-to-staging:
 
