@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: the-last-straw-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: peapota/the-last-straw-backend:TAG
+        ports:
+        - containerPort: 4000
+        envFrom:
+          - configMapRef:
+              name: backend-env
+

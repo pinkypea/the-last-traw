@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  namespace: the-last-straw-app
+  labels:
+    app: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: database
+        image: postgres:13
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_PASSWORD
+        ports:
+        - containerPort: 5432
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

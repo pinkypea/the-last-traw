@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-env
+  namespace: the-last-straw-app
+data:
+  DATABASE_URL: "postgresql://postgres:postgres@postgresql:5432/postgres"
