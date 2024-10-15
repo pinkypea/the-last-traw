@@ -101,6 +101,11 @@ jobs:
         sudo apt-get install -y kubectl
         kubectl version --client
 
+    - name: Apply RBAC config
+      run: |
+        kubectl apply -f rbac-config.yaml
+
+
     - name: Config kubectl
       run: |
         mkdir -p ~/.kube
@@ -112,10 +117,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Apply RBAC config
-      run: |
-        kubectl apply -f rbac-config.yaml
 
     - name: Deploy to staging
       run: |
