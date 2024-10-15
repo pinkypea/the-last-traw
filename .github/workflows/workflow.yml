@@ -101,9 +101,8 @@ jobs:
         sudo apt-get install -y kubectl
         kubectl version --client
 
-    # - name: Apply RBAC config
-    #   run: |
-    #     kubectl apply -f rbac-config.yaml
+    - name: Checkout
+      uses: actions/checkout@v3
 
     - name: Config kubectl
       run: |
@@ -115,12 +114,7 @@ jobs:
         kubectl get namespaces
         kubectl describe namespace the-last-straw-app
         kubectl get all -n the-last-straw-app
-
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Deploy to staging
-      run: |
+        ls
         sed -i "s/TAG/$(echo ${{ github.sha }} | head -c 7)/g" kustomize/backend-deployment.yaml
         sed -i "s/TAG/$(echo ${{ github.sha }} | head -c 7)/g" kustomize/frontend-deployment.yaml
         kubectl apply -k ./kustomize
