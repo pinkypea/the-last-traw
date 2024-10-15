@@ -113,6 +113,8 @@ jobs:
         export PATH="kubectl:$PATH"
         echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
         kubectl get node -owide
+        kubectl get namspace
+        kubectl get all -n the-last-straw-app
 
     - name: Checkout
       uses: actions/checkout@v3
