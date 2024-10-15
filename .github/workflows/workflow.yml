@@ -43,7 +43,6 @@ jobs:
     #     rm -rf $GITHUB_ACTION_PATH
     #     ls $GITHUB_PATH
 
-
   build-push-backend:
     runs-on: arc-runner-set
     needs: build-push-frontend
@@ -113,6 +112,10 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Apply RBAC config
+      run: |
+        kubectl apply -f rbac-config.yaml
 
     - name: Deploy to staging
       run: |

@@ -1,0 +1,23 @@
+# Define a ClusterRole with the permission to list nodes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gha-cluster-role
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+
+# Bind the service account to the ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gha-cluster-role-binding
+subjects:
+  - kind: ServiceAccount
+    name: arc-runner-set-gha-rs-kube-mode  # The service account name from the error
+    namespace: arc-runners  # Replace with your namespace if different
+roleRef:
+  kind: ClusterRole
+  name: gha-cluster-role
+  apiGroup: rbac.authorization.k8s.io
