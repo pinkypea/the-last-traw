@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: peapota/the-last-straw-frontend:TAG
+        image: peapota/the-last-straw-frontend:5c41327
         ports:
         - containerPort: 3000
         envFrom:
